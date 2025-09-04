@@ -3,7 +3,7 @@ pipeline {
 stage {
    stage('checkout') {
 steps {
-git branch: 'main', url: 'https://github.com/umeshvarma18/devopslab'
+git branch: 'main', url: 'https://github.com/umeshvarma18/devopslab.git'
 }
 }
 stage('Deploy') {
