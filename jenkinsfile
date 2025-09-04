@@ -22,7 +22,7 @@ pipeline {
                    allowMissing: false,
                    keepAll: true,
                    reportDir: 'deployed_html',
-                   reportFiles: 'form.html'
+                   reportFiles: 'index.html'
                    reprtName: 'My Webpage'
                    ])
       }
