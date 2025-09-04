@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/umeshvarma18/devopslab.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                // Add build commands here, for example:
+                // sh 'make build' or 'npm install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // Run test commands, e.g.,
+                // sh 'npm test'
+                // or
+                // sh 'pytest tests/ --junitxml=report.xml'
+            }
+            post {
+                always {
+                    // Archive test reports if available
+                    junit '**/report.xml'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the project...'
+                sh '''
+                    mkdir -p deployed_html
+                    cp *.html deployed_html/
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            publishHTML(target: [
+                allowMissing: false,
+                keepAll: true,
+                reportDir: 'deployed_html',
+                reportFiles: 'form.html',
+                reportName: 'My Webpage2'
+            ])
+        }
+        failure {
+            echo 'Build failed. Please check the logs.'
+        }
+    }
+}
