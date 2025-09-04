@@ -1,29 +1,29 @@
 pipeline {
- agent any
- stages{
-     stage('Checkout') {
-  steps {
-    git branch: 'https://github.com/umeshvarma18/devopslab.git'
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/umeshvarma18/devopslab.git'
+            }
+        }     
+        stage('Deploy') {
+            steps {
+                sh '''
+                    mkdir -p deployed_html
+                    cp *.html deployed_html/
+                '''
+            }
         }
-     }     
-     stage('Deploy'){
-          steps{
-             sh'''
-                mkdir -p deployed_html
-                cp *.html deployed_html/
-               '''
-          }
-      }
-   }
+    }
+    post {
+        success {
+            publishHTML(target: [
+                allowMissing: false,
+                keepAll: true,
+                reportDir: 'deployed_html',
+                reportFiles: 'index.html',
+                reportName: 'My Webpage'
+            ])
+        }
+    }
 }
- post {
-     success {
-            publishHTML(target:[
-                   allowMissing: false,
-                   keepAll: true,
-                   reportDir: 'deployed_html',
-                   reportFiles: 'index.html'
-                   reportName: 'My Webpage'
-                   ])
-      }
-   }
