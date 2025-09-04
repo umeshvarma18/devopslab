@@ -1,0 +1,30 @@
+pipeline {
+   agent any
+stage {
+   stage('checkout') {
+steps {
+git branch: 'main', url: 'https://github.com/umeshvarma18/devopslab'
+}
+}
+stage('Deploy') {
+steps {
+sh '''
+mkdir -p deployed_html
+cp *.html deployed_html/
+'''
+}
+}
+}
+post {
+success {
+publishHTML(target: [
+allowMissing: false,
+keepAll: true,
+reportDir: 'deployed_html',
+reportFiles: 'index.html',
+reportName: 'My Webpage'
+])
+}
+}
+}
+
