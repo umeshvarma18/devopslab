@@ -23,7 +23,7 @@ pipeline {
                    keepAll: true,
                    reportDir: 'deployed_html',
                    reportFiles: 'index.html'
-                   reprtName: 'My Webpage'
+                   reportName: 'My Webpage'
                    ])
       }
    }
